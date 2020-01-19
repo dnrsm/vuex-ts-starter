@@ -17,7 +17,7 @@ export interface ITodoState {
   done: boolean;
 }
 
-@Module({ dynamic: true, store, name: "todo" })
+@Module({ dynamic: true, store, name: "todo", namespaced: true })
 class TodoList extends VuexModule implements ITodoListState {
   public todos: ITodoState[] = [];
 

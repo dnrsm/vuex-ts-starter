@@ -6,7 +6,7 @@ import { ITodoListState } from "./modules/TodoList";
 Vue.use(Vuex);
 
 export interface IRootState {
-  todo: ITodoListState;
+  todos: ITodoListState;
 }
 
 export default new Vuex.Store<IRootState>({});
