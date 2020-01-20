@@ -40,13 +40,14 @@ export default class TodoList extends Vue {
 
   addItem() {
     TodoListModule.PutItem(this.item);
+    this.item = "";
   }
 
   deleteItem(index: number) {
     TodoListModule.DeleteItem(index);
   }
 
-  isDone(id: number) {
+  isDone(id: string) {
     TodoListModule.setDone(id);
   }
 }

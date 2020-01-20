@@ -6,13 +6,15 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "@/store";
+import uuid from "uuid/v4";
 
 export interface ITodoListState {
   todos: ITodoState[];
 }
 
-export interface ITodoState {
-  id: number;
+interface ITodoState {
+  id: string;
+  createdAt: Date;
   item: string;
   done: boolean;
 }
@@ -36,17 +38,19 @@ class TodoList extends VuexModule implements ITodoListState {
   }
 
   @Mutation
-  private SET_DONE(id: number) {
-    (this.todos.find(item => item.id == id) || ({} as ITodoState)).done = !(
-      this.todos.find(item => item.id == id) || ({} as ITodoState)
-    ).done;
+  private SET_DONE(id: string): void {
+    this.todos = this.todos.map(todo => {
+      if (todo.id !== id) return todo;
+      return { ...todo, done: !todo.done };
+    });
   }
 
   @Action
-  public PutItem(item: string) {
-    const id = this.todos.length ? this.todos.slice(-1)[0].id + 1 : 0;
+  public PutItem(item: string): void {
+    const id = uuid();
     const todo = {
       id,
+      createdAt: new Date(),
       item,
       done: true
     };
@@ -59,7 +63,7 @@ class TodoList extends VuexModule implements ITodoListState {
   }
 
   @Action
-  public setDone(id: number) {
+  public setDone(id: string) {
     this.SET_DONE(id);
   }
 }
